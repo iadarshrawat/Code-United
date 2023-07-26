@@ -6,9 +6,6 @@ import 'codemirror/theme/dracula.css';
 import 'codemirror/addon/edit/closetag'
 import 'codemirror/addon/edit/closebrackets'
 
-
-
-
 function Editor() {
     useEffect(()=>{
         function init(){

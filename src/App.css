@@ -143,6 +143,7 @@ footer a{
 .leaveBtn {
   margin-top: 20px;
   width: 100%;
+  font-weight: bold;
 }
 
 .CodeMirror {
@@ -150,4 +151,5 @@ footer a{
   font-size: 20px;
   line-height: 1.6;
   padding-top: 20px;
+  overflow-y: scroll;
 }

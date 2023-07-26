@@ -1,13 +1,47 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Client from '../components/Client';
 import Editor from '../components/Editor';
+import ACTIONS from '../Action';
+import {io} from 'socket.io-client'
+import {useLocation, useNavigate, Navigate, useParams} from 'react-router-dom'
+
+
+const initsocket = io('http://localhost:4000/');
+
 
 function EditorPage() {
+    
+    const location = useLocation();
+    const {roomId} = useParams();
+
+
+    useEffect( ()=>{
+
+        const init = async () => {
+        
+            initsocket.emit(ACTIONS.JOIN, {
+                roomId,
+                username: location.state?.username,
+            })
+
+            console.log(roomId, location.state?.username)
+
+        };
+        init();
+    }, [])
+
+
+
     const [client, setClient] = useState([
         {socketId:1, username:'Adarsh R'},
         {socketId:2, username:'Rakesh R'},
         
     ]);
+
+    if(!location.state){
+        return <Navigate to={'/'}/>
+    }
+
   return (
     <div className='mainWrap'>
         <div className="aside">
