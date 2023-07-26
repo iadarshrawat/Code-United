@@ -4,6 +4,7 @@ import Editor from '../components/Editor';
 import ACTIONS from '../Action';
 import {io} from 'socket.io-client'
 import {useLocation, useNavigate, Navigate, useParams} from 'react-router-dom'
+import { toast } from 'react-toast';
 
 
 const initsocket = io('http://localhost:4000/');
@@ -24,7 +25,13 @@ function EditorPage() {
                 username: location.state?.username,
             })
 
-            console.log(roomId, location.state?.username)
+            initsocket.on(ACTIONS.JOINED, ({clients, username, socketId})=>{
+                console.log(`${username} joined the room`)
+                if(username !== location.state?.username) {
+                    toast.success(`${username} joined the room`);
+                    console.log(`${username} joined the room`);
+                }
+            })
 
         };
         init();
