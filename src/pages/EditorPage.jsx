@@ -30,6 +30,7 @@ function EditorPage() {
                 if(username !== location.state?.username) {
                     toast.success(`${username} joined the room`);
                 }
+                // console.log(clients)
                 setClient(clients);
             })
 
@@ -45,11 +46,11 @@ function EditorPage() {
         };
         init();
 
-        return ()=> {
-            initsocket.disconnect();
-            initsocket.off(ACTIONS.JOIN);
-            initsocket.off(ACTIONS.DISCONNECTED);
-        } 
+        // return ()=> {
+        //     initsocket.disconnect();
+        //     initsocket.off(ACTIONS.JOIN);
+        //     initsocket.off(ACTIONS.DISCONNECTED);
+        // } 
     }, [])
 
     if(!location.state){
@@ -79,7 +80,7 @@ function EditorPage() {
         </div>
         <div className="editorWrap">
             
-            <Editor/>
+            <Editor initsocket={initsocket} roomId={roomId}/>
 
         </div>
     </div>
