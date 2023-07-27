@@ -15,6 +15,7 @@ function EditorPage() {
     const location = useLocation();
     const {roomId} = useParams();
 
+    const [client, setClient] = useState([]);
 
     useEffect( ()=>{
 
@@ -26,24 +27,30 @@ function EditorPage() {
             })
 
             initsocket.on(ACTIONS.JOINED, ({clients, username, socketId})=>{
-                console.log(`${username} joined the room`)
                 if(username !== location.state?.username) {
                     toast.success(`${username} joined the room`);
-                    console.log(`${username} joined the room`);
                 }
+                setClient(clients);
             })
 
+            initsocket.on(ACTIONS.DISCONNECTED, ({socketId, username})=>{
+                toast.success(`${username} left the room`)
+                console.log(`${username} left the room`)
+                setClient((prev)=> {
+                    return prev.filter(
+                        (client) => client.socketId !== socketId
+                    );
+                });
+            })
         };
         init();
+
+        return ()=> {
+            initsocket.disconnect();
+            initsocket.off(ACTIONS.JOIN);
+            initsocket.off(ACTIONS.DISCONNECTED);
+        } 
     }, [])
-
-
-
-    const [client, setClient] = useState([
-        {socketId:1, username:'Adarsh R'},
-        {socketId:2, username:'Rakesh R'},
-        
-    ]);
 
     if(!location.state){
         return <Navigate to={'/'}/>
