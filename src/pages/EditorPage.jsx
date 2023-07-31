@@ -53,9 +53,23 @@ function EditorPage() {
         // } 
     }, [])
 
+
+
     if(!location.state){
         return <Navigate to={'/'}/>
     }
+
+    async function copyFunction(){
+        try {
+            await navigator.clipboard.writeText(roomId);
+            toast.success('Room ID has been copied to your clipboard');
+        } catch (error) {
+            console.log(error)
+            toast.error(error)
+        }
+    }
+
+    
 
   return (
     <div className='mainWrap'>
@@ -75,7 +89,7 @@ function EditorPage() {
                     }
                 </div>
             </div>
-            <button className='btn copyBtn'>Copy ROOM ID</button>
+            <button className='btn copyBtn' onClick={copyFunction}>Copy ROOM ID</button>
             <button className='btn leaveBtn'>Leave</button>
         </div>
         <div className="editorWrap">
