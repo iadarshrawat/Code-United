@@ -5,6 +5,7 @@ import ACTIONS from '../Action';
 import {io} from 'socket.io-client'
 import {useLocation, useNavigate, Navigate, useParams} from 'react-router-dom'
 import { toast } from 'react-toast';
+import TextChat from '../components/TextChat';
 
 
 const initsocket = io('http://localhost:4000/');
@@ -46,11 +47,11 @@ function EditorPage() {
         };
         init();
 
-        // return ()=> {
-        //     initsocket.disconnect();
-        //     initsocket.off(ACTIONS.JOIN);
-        //     initsocket.off(ACTIONS.DISCONNECTED);
-        // } 
+        return ()=> {
+            // initsocket.disconnect();
+            initsocket.off(ACTIONS.JOIN);
+            initsocket.off(ACTIONS.DISCONNECTED);
+        } 
     }, [])
 
 
@@ -96,6 +97,9 @@ function EditorPage() {
             
             <Editor initsocket={initsocket} roomId={roomId}/>
 
+        </div>
+        <div className="textChat">
+            <TextChat socket={initsocket} room={roomId} username={location.state?.username}/>
         </div>
     </div>
   )
