@@ -25,7 +25,6 @@ function TextChat({ socket, username, room }) {
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
-        console.log('check')
       setMessageList((list) => [...list, data]);
     });
   }, [socket]);
