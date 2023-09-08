@@ -29,17 +29,16 @@ function Editor({initsocket, roomId}) {
                         code,
                     })
                 }
-                console.log(code);
             })
 
             initsocket.on(ACTIONS.CODE_CHANGE, ({code})=>{
                 if(code != null) {
                     const editor = editorRef.current;
-                    const lastLineNumber = editor.lastLine();
+                    const lastLineNumber = editor.getCursor().line;
                     const lastLine = editor.getLine(lastLineNumber);
-                    const lastCharPosition = lastLine.length;
+                    const cursor = editor.getCursor(lastLine);
                     editor.setValue(code);
-                    editor.setCursor({ line: lastLineNumber, ch: lastCharPosition });
+                    editor.setCursor({ line: lastLineNumber, ch: cursor.ch });
 
                 }
             })
