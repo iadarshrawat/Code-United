@@ -1,5 +1,5 @@
 const app = require("express")()
-
+const cors = require('cors')
 const {Server} = require('socket.io')
 
 const http = require('http');
@@ -12,6 +12,8 @@ const io = new Server(server, {
 });
 
 const userSocketMap = {};
+
+app.use(cors());
 
 function getAllConnectedClients(roomId){
     // map
